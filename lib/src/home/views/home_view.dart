@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:tmdb_client_kobe/src/home/home_model.dart';
+import 'package:tmdb_client_kobe/src/home/view_models/home_model.dart';
 import 'package:tmdb_client_kobe/src/home/widgets/movie_card.dart';
 import 'package:tmdb_client_kobe/src/util/base_view.dart';
 import 'package:tmdb_client_kobe/src/util/base_view_model.dart';
@@ -40,7 +40,11 @@ class HomeView extends StatelessWidget {
                               (movie) {
                                 return Center(
                                   child: InkWell(
-                                    onTap: () => print('hello'),
+                                    onTap: () {
+                                      model.setDetails(moviee: movie);
+                                      Navigator.of(context)
+                                          .pushNamed('/details');
+                                    },
                                     child: MovieCard(
                                       title: movie.title,
                                       releaseDate: movie.releaseDate,
@@ -58,7 +62,11 @@ class HomeView extends StatelessWidget {
                               (movie) {
                                 return Center(
                                   child: InkWell(
-                                    onTap: () => print('hello'),
+                                    onTap: () {
+                                      model.setDetails(moviee: movie);
+                                      Navigator.of(context)
+                                          .pushNamed('/details');
+                                    },
                                     child: MovieCard(
                                       title: movie.title,
                                       releaseDate: movie.releaseDate,

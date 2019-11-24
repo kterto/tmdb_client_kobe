@@ -1,10 +1,12 @@
-import 'package:tmdb_client_kobe/src/home/fetch_upcoming_service.dart';
+import 'package:tmdb_client_kobe/src/home/services/details_service.dart';
+import 'package:tmdb_client_kobe/src/home/services/fetch_upcoming_service.dart';
 import 'package:tmdb_client_kobe/src/locator.dart';
 import 'package:tmdb_client_kobe/src/models/movie_model.dart';
 import 'package:tmdb_client_kobe/src/util/base_view_model.dart';
 
 class HomeModel extends BaseViewModel {
   FetchUpcomingService _fetchUpcomingService;
+  DetailsService _detailsService;
   List<Movie> upcomingList;
   List<Movie> leftList;
   List<Movie> rightList;
@@ -12,6 +14,8 @@ class HomeModel extends BaseViewModel {
 
   void initModel() async {
     _fetchUpcomingService = locator<FetchUpcomingService>();
+    _detailsService = locator<DetailsService>();
+
     error = false;
     leftList = [];
     rightList = [];
@@ -34,5 +38,9 @@ class HomeModel extends BaseViewModel {
       error = true;
       setState(ViewState.Idle);
     }
+  }
+
+  void setDetails({Movie moviee}) {
+    _detailsService.setDetailedMovie(mov: moviee);
   }
 }
