@@ -31,7 +31,10 @@ class DetailsBody extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 0.02 * width),
+              margin: EdgeInsets.only(
+                left: 0.02 * width,
+                top: height * 0.03,
+              ),
               width: 0.6 * width,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +50,8 @@ class DetailsBody extends StatelessWidget {
                   ),
                   AutoSizeText(
                     overview,
-                    maxLines: 5,
+                    maxLines: 10,
+                    minFontSize: 10,
                   ),
                 ],
               ),

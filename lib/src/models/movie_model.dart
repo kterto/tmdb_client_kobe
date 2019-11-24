@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 const String baseImagesUrl = "https://image.tmdb.org/t/p/original/";
 
 class Movie extends Equatable {
-  final bool hasVideo;
   final String posterPath;
   List<String> backdropPath;
   final String originalLang;
@@ -25,7 +24,6 @@ class Movie extends Equatable {
   }
 
   Movie({
-    this.hasVideo,
     this.posterPath,
     this.backdropPath,
     this.originalLang,
@@ -38,21 +36,20 @@ class Movie extends Equatable {
   });
 
   Movie.fromJson(Map<String, dynamic> json)
-      : hasVideo = json['video'] ?? null,
-        posterPath = baseImagesUrl + json['poster_path'] ?? null,
-        backdropPath = [baseImagesUrl + json['backdrop_path']] ?? null,
-        originalLang = json['original_language'] ?? null,
-        originalTitle = json['original_title'] ?? null,
-        title = json['title'] ?? null,
+      : posterPath = baseImagesUrl + json['poster_path'].toString() ?? null,
+        backdropPath =
+            [baseImagesUrl + json['backdrop_path'].toString()] ?? null,
+        originalLang = json['original_language'].toString() ?? null,
+        originalTitle = json['original_title'].toString() ?? null,
+        title = json['title'].toString() ?? null,
         releaseDate = toDateTime(json['release_date']) ?? null,
         voteAverage = double.parse(json['vote_average'].toString()) ?? null,
-        overView = json['overview'] ?? null,
-        id = json['id'] ?? null;
+        overView = json['overview'].toString() ?? null,
+        id = int.parse(json['id'].toString()) ?? null;
 
   @override
   String toString() {
     return '''{
-      hasVideo: $hasVideo,
       posterPath: $posterPath,
       backdropPath: $backdropPath,
       originalLang: $originalLang,

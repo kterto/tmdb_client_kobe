@@ -30,6 +30,7 @@ class HomeView extends StatelessWidget {
                       child: Text('error'),
                     )
                   : SingleChildScrollView(
+                      controller: model.viewScroller,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[

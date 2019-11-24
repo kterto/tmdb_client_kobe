@@ -26,6 +26,8 @@ class API {
           pag.toString();
     }
 
+    print('[api][getUpcoming][url]: $url');
+
     return http.get(
       url,
       headers: {

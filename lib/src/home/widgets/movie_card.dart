@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class MovieCard extends StatelessWidget {
@@ -46,26 +47,59 @@ class MovieCard extends StatelessWidget {
           bottom: cardHeight * 0.10,
           child: Column(
             children: <Widget>[
-              Text(
-                title,
-                style: TextStyle(
-                  fontFamily: "OpenSans",
-                  fontSize: 15,
-                  color: Colors.white,
+              Container(
+                alignment: Alignment.center,
+                width: cardWidth,
+                child: AutoSizeText(
+                  title,
+                  style: TextStyle(
+                    fontFamily: "OpenSans",
+                    fontSize: 15,
+                    color: Colors.white,
+                  ),
+                  maxLines: 1,
                 ),
               ),
-              Text(
-                "Release Date: ${releaseDate.day}/${releaseDate.month}/${releaseDate.year}",
-                style: TextStyle(
-                  fontFamily: "OpenSans",
-                  fontSize: 12,
-                  color: Colors.white,
-                ),
-              )
+              ReleaseDate(
+                day: releaseDate.day,
+                month: releaseDate.month,
+                year: releaseDate.year,
+              ),
             ],
           ),
         ),
       ],
+    );
+  }
+}
+
+class ReleaseDate extends StatelessWidget {
+  final int day;
+  final int month;
+  final int year;
+
+  ReleaseDate({
+    this.day,
+    this.month,
+    this.year,
+  });
+
+  String numberToString(int number) {
+    if (number < 10) {
+      return '0$number';
+    } else {
+      return number.toString();
+    }
+  }
+
+  Widget build(context) {
+    return Text(
+      "Release Date: ${numberToString(day)}/${numberToString(month)}/$year",
+      style: TextStyle(
+        fontFamily: "OpenSans",
+        fontSize: 12,
+        color: Colors.white,
+      ),
     );
   }
 }

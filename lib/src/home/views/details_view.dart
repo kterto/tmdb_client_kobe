@@ -27,11 +27,15 @@ class DetailsView extends StatelessWidget {
               ? Center(
                   child: CircularProgressIndicator(),
                 )
-              : DetailsBody(
-                  overview: model.movie.overView,
-                  posterUrl: model.movie.posterPath,
-                  backdropUrls: model.movie.backdropPath,
-                ),
+              : model.error
+                  ? Center(
+                      child: Text('Error'),
+                    )
+                  : DetailsBody(
+                      overview: model.movie.overView,
+                      posterUrl: model.movie.posterPath,
+                      backdropUrls: model.movie.backdropPath,
+                    ),
         );
       },
     );
