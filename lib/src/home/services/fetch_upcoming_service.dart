@@ -19,7 +19,7 @@ class FetchUpcomingService {
 
     try {
       resp = await API.getUpcoming(page: page);
-      print(resp.body);
+      // print(resp.body);
 
       var respJson = json.decode(resp.body);
 
@@ -28,6 +28,8 @@ class FetchUpcomingService {
       list.forEach((movieJson) {
         upcomingList.add(Movie.fromJson(movieJson));
       });
+
+      // print(upcomingList);
 
       return list.isNotEmpty;
     } catch (err) {

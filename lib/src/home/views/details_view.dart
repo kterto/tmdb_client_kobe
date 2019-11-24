@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tmdb_client_kobe/src/home/view_models/details_model.dart';
+import 'package:tmdb_client_kobe/src/home/widgets/details_body.dart';
 import 'package:tmdb_client_kobe/src/util/base_view.dart';
+import 'package:tmdb_client_kobe/src/util/base_view_model.dart';
 
 class DetailsView extends StatelessWidget {
   Widget build(context) {
@@ -17,7 +19,19 @@ class DetailsView extends StatelessWidget {
                 fontWeight: FontWeight.w400,
               ),
             ),
+            iconTheme: IconThemeData(
+              color: Theme.of(context).primaryColor,
+            ),
           ),
+          body: model.state == ViewState.Busy
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : DetailsBody(
+                  overview: model.movie.overView,
+                  posterUrl: model.movie.posterPath,
+                  backdropUrls: model.movie.backdropPath,
+                ),
         );
       },
     );

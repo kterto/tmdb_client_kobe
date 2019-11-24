@@ -37,7 +37,9 @@ class _AppState extends State<App> {
       navigatorObservers: [_navigatorObserver],
       onGenerateRoute: _appRoutes,
       theme: ThemeData(
-        appBarTheme: AppBarTheme(color: Color(0xFF081C24)),
+        appBarTheme: AppBarTheme(
+          color: Color(0xFF081C24),
+        ),
         primaryColor: Color(0xFF01D277),
         accentColor: Color(0xFF01D277),
         fontFamily: "OpenSans",

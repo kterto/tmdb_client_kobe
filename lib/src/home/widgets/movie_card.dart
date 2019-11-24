@@ -43,7 +43,7 @@ class MovieCard extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: cardHeight * 0.15,
+          bottom: cardHeight * 0.10,
           child: Column(
             children: <Widget>[
               Text(

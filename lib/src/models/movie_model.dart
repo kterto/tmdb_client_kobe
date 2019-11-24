@@ -5,7 +5,7 @@ const String baseImagesUrl = "https://image.tmdb.org/t/p/original/";
 class Movie extends Equatable {
   final bool hasVideo;
   final String posterPath;
-  final String backdropPath;
+  List<String> backdropPath;
   final String originalLang;
   final String originalTitle;
   final String title;
@@ -40,13 +40,13 @@ class Movie extends Equatable {
   Movie.fromJson(Map<String, dynamic> json)
       : hasVideo = json['video'] ?? null,
         posterPath = baseImagesUrl + json['poster_path'] ?? null,
-        backdropPath = baseImagesUrl + json['backdrop_path'] ?? null,
+        backdropPath = [baseImagesUrl + json['backdrop_path']] ?? null,
         originalLang = json['original_language'] ?? null,
         originalTitle = json['original_title'] ?? null,
         title = json['title'] ?? null,
         releaseDate = toDateTime(json['release_date']) ?? null,
         voteAverage = double.parse(json['vote_average'].toString()) ?? null,
-        overView = json['over_view'] ?? null,
+        overView = json['overview'] ?? null,
         id = json['id'] ?? null;
 
   @override

@@ -34,4 +34,18 @@ class API {
       },
     );
   }
+
+  static Future<http.Response> getBackDrops(int movieId) {
+    String url;
+
+    url = baseUrl + 'movie/' + movieId.toString() + '/images?api_key=' + apiKey;
+
+    return http.get(
+      url,
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.acceptHeader: 'application/json'
+      },
+    );
+  }
 }
