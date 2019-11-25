@@ -2,6 +2,7 @@ import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:tmdb_client_kobe/src/home/view_models/search_model.dart';
 import 'package:tmdb_client_kobe/src/home/widgets/movie_card.dart';
+import 'package:tmdb_client_kobe/src/home/widgets/movies_card_grid.dart';
 import 'package:tmdb_client_kobe/src/util/base_view.dart';
 import 'package:tmdb_client_kobe/src/util/base_view_model.dart';
 
@@ -57,7 +58,7 @@ class SearchView extends StatelessWidget {
                                           EdgeInsets.only(top: 0.04 * height),
                                       height: 0.08 * height,
                                       child: Text(
-                                        'Results: (page ${model.page}/${model.totalPages})',
+                                        'Results: (pages ${model.page}/${model.totalPages})',
                                         style: TextStyle(
                                           color: Color(0xFFAAAAAA),
                                           fontFamily: "OpenSans",
@@ -66,63 +67,10 @@ class SearchView extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: model.leftList.map(
-                                            (movie) {
-                                              return Center(
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    model.setDetails(
-                                                        moviee: movie);
-                                                    Navigator.of(context)
-                                                        .pushNamed('/details');
-                                                  },
-                                                  child: MovieCard(
-                                                    title: movie.title,
-                                                    releaseDate:
-                                                        movie.releaseDate,
-                                                    posterUrl: movie.posterPath,
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ).toList(),
-                                        ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: model.rightList.map(
-                                            (movie) {
-                                              return Center(
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    model.setDetails(
-                                                        moviee: movie);
-                                                    Navigator.of(context)
-                                                        .pushNamed('/details');
-                                                  },
-                                                  child: MovieCard(
-                                                    title: movie.title,
-                                                    releaseDate:
-                                                        movie.releaseDate,
-                                                    posterUrl: movie.posterPath,
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ).toList(),
-                                        ),
-                                      ],
+                                    MoviesCardGrid(
+                                      leftList: model.leftList,
+                                      rightList: model.rightList,
+                                      setDetails: model.setDetails,
                                     ),
                                     ShowMoreResults(
                                       height: height,
@@ -194,7 +142,7 @@ class ShowMoreResults extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Show more Results: '),
+            Text('Show more Results '),
             Icon(
               Icons.arrow_forward_ios,
               color: Theme.of(context).primaryColor,

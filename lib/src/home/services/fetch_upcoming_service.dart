@@ -24,7 +24,7 @@ class FetchUpcomingService {
     try {
       resp = await API.getUpcoming(page: page);
       // print(resp.body);
-      print(resp.statusCode);
+      // print(resp.statusCode);
 
       var respJson = json.decode(resp.body);
       // print(respJson['genre_ids']);
@@ -53,13 +53,17 @@ class FetchUpcomingService {
             ),
           );
         } catch (error) {
-          print('[error]: $error');
+          print('[ParsingError][error]: $error');
         }
       });
 
-      upcomingList.sort((a, b) {
-        return -1 * a.releaseDate.compareTo(b.releaseDate);
-      });
+      try {
+        upcomingList.sort((a, b) {
+          return -1 * a.releaseDate.compareTo(b.releaseDate);
+        });
+      } catch (e) {
+        print('[sorting][error]: $e');
+      }
       // print(upcomingList);
       if (upcomingList.length > 20) {
         increasedPage$.add(true);

@@ -25,6 +25,7 @@ class HomeModel extends BaseViewModel {
     _increasedPage$ = locator<FetchUpcomingService>().increasedPage$;
     viewScroller = ScrollController();
     error = false;
+    upcomingList = [];
 
     setState(ViewState.Busy);
     if (await _fetchGenresService.fetchGenres()) {

@@ -18,8 +18,8 @@ class DetailsModel extends BaseViewModel {
 
     if (await _detailsService.getBackDrops()) {
       movie = _detailsService.detailedMovie;
-      print(movie.overView);
-      print(movie.backdropPath);
+      // print(movie.overView);
+      // print(movie.backdropPath);
 
       setState(ViewState.Idle);
     } else {
