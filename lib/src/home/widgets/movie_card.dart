@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:tmdb_client_kobe/src/home/widgets/release_date.dart';
 
 class MovieCard extends StatelessWidget {
   final String title;
@@ -52,12 +53,13 @@ class MovieCard extends StatelessWidget {
                 width: cardWidth,
                 child: AutoSizeText(
                   title,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: "OpenSans",
                     fontSize: 15,
                     color: Colors.white,
                   ),
-                  maxLines: 1,
+                  maxLines: 2,
                 ),
               ),
               ReleaseDate(
@@ -69,37 +71,6 @@ class MovieCard extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class ReleaseDate extends StatelessWidget {
-  final int day;
-  final int month;
-  final int year;
-
-  ReleaseDate({
-    this.day,
-    this.month,
-    this.year,
-  });
-
-  String numberToString(int number) {
-    if (number < 10) {
-      return '0$number';
-    } else {
-      return number.toString();
-    }
-  }
-
-  Widget build(context) {
-    return Text(
-      "Release Date: ${numberToString(day)}/${numberToString(month)}/$year",
-      style: TextStyle(
-        fontFamily: "OpenSans",
-        fontSize: 12,
-        color: Colors.white,
-      ),
     );
   }
 }

@@ -35,6 +35,8 @@ class DetailsView extends StatelessWidget {
                       overview: model.movie.overView,
                       posterUrl: model.movie.posterPath,
                       backdropUrls: model.movie.backdropPath,
+                      genres: model.movie.genre,
+                      releaseDate: model.movie.releaseDate,
                     ),
         );
       },

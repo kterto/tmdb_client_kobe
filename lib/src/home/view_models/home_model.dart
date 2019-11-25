@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tmdb_client_kobe/src/home/services/details_service.dart';
+import 'package:tmdb_client_kobe/src/home/services/fetch_genres_service.dart';
 import 'package:tmdb_client_kobe/src/home/services/fetch_upcoming_service.dart';
 import 'package:tmdb_client_kobe/src/locator.dart';
 import 'package:tmdb_client_kobe/src/models/movie_model.dart';
@@ -9,6 +10,7 @@ import 'package:tmdb_client_kobe/src/util/base_view_model.dart';
 class HomeModel extends BaseViewModel {
   FetchUpcomingService _fetchUpcomingService;
   DetailsService _detailsService;
+  FetchGenresService _fetchGenresService;
   ScrollController viewScroller;
   BehaviorSubject _increasedPage$;
   List<Movie> upcomingList;
@@ -19,11 +21,15 @@ class HomeModel extends BaseViewModel {
   void initModel() async {
     _fetchUpcomingService = locator<FetchUpcomingService>();
     _detailsService = locator<DetailsService>();
+    _fetchGenresService = locator<FetchGenresService>();
     _increasedPage$ = locator<FetchUpcomingService>().increasedPage$;
     viewScroller = ScrollController();
     error = false;
 
     setState(ViewState.Busy);
+    if (await _fetchGenresService.fetchGenres()) {
+      print('ok');
+    }
 
     if (await _fetchUpcomingService.getUpcom()) {
       upcomingList = _fetchUpcomingService.upcomingList;

@@ -50,4 +50,18 @@ class API {
       },
     );
   }
+
+  static Future<http.Response> getGenre() {
+    String url;
+
+    url = baseUrl + 'genre/movie/list?api_key=' + apiKey;
+
+    return http.get(
+      url,
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.acceptHeader: 'application/json'
+      },
+    );
+  }
 }
