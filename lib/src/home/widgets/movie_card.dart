@@ -25,10 +25,16 @@ class MovieCard extends StatelessWidget {
         Container(
           width: cardWidth,
           height: cardHeight,
-          child: Image.network(
-            posterUrl,
-            fit: BoxFit.cover,
-          ),
+          color: Color(0xFFFFFFFF),
+          child: (posterUrl != null)
+              ? Image.network(
+                  posterUrl,
+                  fit: BoxFit.cover,
+                )
+              : Icon(
+                  Icons.broken_image,
+                  size: cardWidth,
+                ),
         ),
         Container(
           width: cardWidth,
@@ -62,11 +68,13 @@ class MovieCard extends StatelessWidget {
                   maxLines: 2,
                 ),
               ),
-              ReleaseDate(
-                day: releaseDate.day,
-                month: releaseDate.month,
-                year: releaseDate.year,
-              ),
+              releaseDate != null
+                  ? ReleaseDate(
+                      day: releaseDate.day,
+                      month: releaseDate.month,
+                      year: releaseDate.year,
+                    )
+                  : Text('Unkown'),
             ],
           ),
         ),

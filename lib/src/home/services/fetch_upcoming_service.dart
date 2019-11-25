@@ -36,7 +36,7 @@ class FetchUpcomingService {
 
         ids = movieJson['genre_ids'].toList();
 
-        print(ids);
+        // print(ids);
 
         ids.forEach((e) {
           if (genres.containsKey(e)) {
@@ -44,7 +44,7 @@ class FetchUpcomingService {
           }
         });
 
-        print('gens: $gens');
+        // print('gens: $gens');
         try {
           upcomingList.add(
             Movie.fromJson(

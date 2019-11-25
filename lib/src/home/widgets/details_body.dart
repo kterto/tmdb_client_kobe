@@ -26,7 +26,9 @@ class DetailsBody extends StatelessWidget {
       gens = gens + gen + ',';
     });
 
-    gens = gens.substring(0, gens.length - 1);
+    if (gens.isNotEmpty) {
+      gens = gens.substring(0, gens.length - 1);
+    }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -38,10 +40,15 @@ class DetailsBody extends StatelessWidget {
               margin: EdgeInsets.only(top: 0.03 * height, left: 0.03 * width),
               height: 0.2 * height,
               width: 0.25 * width,
-              child: Image.network(
-                posterUrl,
-                fit: BoxFit.cover,
-              ),
+              child: (posterUrl != null)
+                  ? Image.network(
+                      posterUrl,
+                      fit: BoxFit.cover,
+                    )
+                  : Icon(
+                      Icons.broken_image,
+                      size: 0.25 * width,
+                    ),
             ),
             Container(
               margin: EdgeInsets.only(
@@ -77,7 +84,7 @@ class DetailsBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               AutoSizeText(
-                'Genre: ' + gens,
+                gens.isNotEmpty ? 'Genre: ' + gens : 'Genre: unknown',
                 maxLines: 2,
                 minFontSize: 10,
                 softWrap: true,
@@ -86,12 +93,14 @@ class DetailsBody extends StatelessWidget {
                   fontSize: 12,
                 ),
               ),
-              ReleaseDate(
-                day: releaseDate.day,
-                month: releaseDate.month,
-                year: releaseDate.year,
-                textColor: Color(0xFF333333),
-              ),
+              releaseDate != null
+                  ? ReleaseDate(
+                      day: releaseDate.day,
+                      month: releaseDate.month,
+                      year: releaseDate.year,
+                      textColor: Color(0xFF333333),
+                    )
+                  : Text('Unkown'),
             ],
           ),
         ),
@@ -114,16 +123,29 @@ class DetailsBody extends StatelessWidget {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: backdropUrls.map((url) {
-                    return Container(
-                      height: 0.3 * height,
-                      width: 0.8 * width,
-                      child: Image.network(
-                        url,
-                        fit: BoxFit.cover,
-                      ),
-                    );
-                  }).toList(),
+                  children: backdropUrls.isNotEmpty
+                      ? backdropUrls.map((url) {
+                          return Container(
+                            height: 0.3 * height,
+                            width: 0.8 * width,
+                            child: url != null
+                                ? Image.network(
+                                    url,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Icon(
+                                    Icons.broken_image,
+                                    size: 0.8 * width,
+                                  ),
+                          );
+                        }).toList()
+                      : [
+                          Container(
+                            height: 0.3 * height,
+                            width: 0.8 * width,
+                            child: Icon(Icons.broken_image),
+                          ),
+                        ],
                 ),
               ),
             ],

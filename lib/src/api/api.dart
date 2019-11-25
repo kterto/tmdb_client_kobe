@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 const String apiKey = "c5850ed73901b8d268d0898a8a9d8bff";
@@ -55,6 +56,36 @@ class API {
     String url;
 
     url = baseUrl + 'genre/movie/list?api_key=' + apiKey;
+
+    return http.get(
+      url,
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.acceptHeader: 'application/json'
+      },
+    );
+  }
+
+  static Future<http.Response> search({@required String query, int pag}) async {
+    String url;
+
+    if (pag != null) {
+      url = baseUrl +
+          'search/movie?api_key=' +
+          apiKey +
+          '&query=' +
+          query +
+          '&page=' +
+          pag.toString() +
+          '&include_adult=false';
+    } else {
+      url = baseUrl +
+          'search/movie?api_key=' +
+          apiKey +
+          '&query=' +
+          query +
+          '&include_adult=false';
+    }
 
     return http.get(
       url,

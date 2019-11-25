@@ -39,9 +39,12 @@ class Movie extends Equatable {
   });
 
   Movie.fromJson(Map<String, dynamic> json, {List<String> genres})
-      : posterPath = baseImagesUrl + json['poster_path'].toString() ?? null,
-        backdropPath =
-            [baseImagesUrl + json['backdrop_path'].toString()] ?? null,
+      : posterPath = json['poster_path'] != null
+            ? baseImagesUrl + json['poster_path'].toString()
+            : null,
+        backdropPath = json['backdrop_path'] != null
+            ? [baseImagesUrl + json['backdrop_path'].toString()]
+            : [null],
         originalLang = json['original_language'].toString() ?? null,
         originalTitle = json['original_title'].toString() ?? null,
         title = json['title'].toString() ?? null,
@@ -96,12 +99,17 @@ class Movie extends Equatable {
 }
 
 DateTime toDateTime(String date) {
-  List<String> dateArray = date.split("-");
-  return DateTime(
-    int.parse(dateArray[0]),
-    int.parse(dateArray[1]),
-    int.parse(dateArray[2]),
-  );
+  try {
+    List<String> dateArray = date.split("-");
+    return DateTime(
+      int.parse(dateArray[0]),
+      int.parse(dateArray[1]),
+      int.parse(dateArray[2]),
+    );
+  } catch (e) {
+    print('[toDateTime][error]: $e');
+    return null;
+  }
 }
 
 List<String> generateGenreList({List<int> genIds}) {

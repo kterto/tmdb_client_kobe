@@ -21,6 +21,10 @@ class HomeView extends StatelessWidget {
               ),
             ),
           ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () => Navigator.of(context).pushNamed('/search'),
+            child: Icon(Icons.search),
+          ),
           body: model.state == ViewState.Busy
               ? Center(
                   child: CircularProgressIndicator(),

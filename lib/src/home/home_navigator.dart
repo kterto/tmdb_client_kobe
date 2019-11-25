@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tmdb_client_kobe/src/home/views/details_view.dart';
 import 'package:tmdb_client_kobe/src/home/views/home_view.dart';
+import 'package:tmdb_client_kobe/src/home/views/search_view.dart';
 
 typedef RouteGenerator = MaterialPageRoute Function();
 
@@ -28,6 +29,10 @@ class HomeNavigatorState extends State<HomeNavigator> {
       '/details': () => MaterialPageRoute(
             settings: RouteSettings(name: '/details'),
             builder: (context) => DetailsView(),
+          ),
+      '/search': () => MaterialPageRoute(
+            settings: RouteSettings(name: '/search'),
+            builder: (context) => SearchView(),
           ),
     };
   }
