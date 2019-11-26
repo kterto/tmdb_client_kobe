@@ -30,44 +30,25 @@ class HomeView extends StatelessWidget {
                   ? Center(
                       child: CircularProgressIndicator(),
                     )
-                  : SingleChildScrollView(
-                      controller: model.viewScroller,
-                      child: Column(
-                        children: <Widget>[
-                          MoviesCardGrid(
-                            leftList: model.leftList,
-                            rightList: model.rightList,
-                            setDetails: model.setDetails,
-                          ),
-                          Container(
-                            height: 100,
-                            color: Color.fromARGB(100, 0, 0, 0),
-                            child: Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          ),
-                        ],
-                      ),
+                  : MoviesCardGrid(
+                      leftList: model.leftList,
+                      rightList: model.rightList,
+                      setDetails: model.setDetails,
+                      isHome: true,
+                      viewScroller: model.viewScroller,
+                      state: model.state,
                     )
               : model.error
                   ? Center(
                       child: Text('error'),
                     )
-                  : SingleChildScrollView(
-                      controller: model.viewScroller,
-                      child: Column(
-                        children: <Widget>[
-                          MoviesCardGrid(
-                            leftList: model.leftList,
-                            rightList: model.rightList,
-                            setDetails: model.setDetails,
-                          ),
-                          Container(
-                            height: 100,
-                            color: Color.fromARGB(100, 0, 0, 0),
-                          ),
-                        ],
-                      ),
+                  : MoviesCardGrid(
+                      leftList: model.leftList,
+                      rightList: model.rightList,
+                      setDetails: model.setDetails,
+                      isHome: true,
+                      viewScroller: model.viewScroller,
+                      state: model.state,
                     ),
         );
       },

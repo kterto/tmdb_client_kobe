@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:tmdb_client_kobe/src/home/services/details_service.dart';
 import 'package:tmdb_client_kobe/src/home/services/search_service.dart';
 import 'package:tmdb_client_kobe/src/locator.dart';
@@ -9,7 +7,6 @@ import 'package:tmdb_client_kobe/src/util/base_view_model.dart';
 class SearchModel extends BaseViewModel {
   SearchService _searchService;
   DetailsService _detailsService;
-  ScrollController viewScroller;
   List<Movie> searchResult;
   List<Movie> leftList;
   List<Movie> rightList;
@@ -22,7 +19,6 @@ class SearchModel extends BaseViewModel {
   void initModel() {
     _searchService = locator<SearchService>();
     _detailsService = locator<DetailsService>();
-    viewScroller = ScrollController();
     error = false;
     initial = true;
     leftList = [];
