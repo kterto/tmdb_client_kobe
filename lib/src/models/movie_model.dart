@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:tmdb_client_kobe/src/home/services/genres.dart';
 
 const String baseImagesUrl = "https://image.tmdb.org/t/p/original/";
 
 class Movie extends Equatable {
-  final bool hasVideo;
   final String posterPath;
-  final String backdropPath;
+  final List<String> backdropPath;
   final String originalLang;
   final String originalTitle;
   final String title;
@@ -13,6 +13,7 @@ class Movie extends Equatable {
   final double voteAverage;
   final String overView;
   final int id;
+  final List<String> genre;
 
   @override
   List get props {
@@ -25,7 +26,6 @@ class Movie extends Equatable {
   }
 
   Movie({
-    this.hasVideo,
     this.posterPath,
     this.backdropPath,
     this.originalLang,
@@ -35,24 +35,54 @@ class Movie extends Equatable {
     this.voteAverage,
     this.overView,
     this.id,
+    this.genre,
   });
 
-  Movie.fromJson(Map<String, dynamic> json)
-      : hasVideo = json['video'] ?? null,
-        posterPath = baseImagesUrl + json['poster_path'] ?? null,
-        backdropPath = baseImagesUrl + json['backdrop_path'] ?? null,
-        originalLang = json['original_language'] ?? null,
-        originalTitle = json['original_title'] ?? null,
-        title = json['title'] ?? null,
+  Movie.fromJson(Map<String, dynamic> json, {List<String> genres})
+      : posterPath = json['poster_path'] != null
+            ? baseImagesUrl + json['poster_path'].toString()
+            : null,
+        backdropPath = json['backdrop_path'] != null
+            ? [baseImagesUrl + json['backdrop_path'].toString()]
+            : [null],
+        originalLang = json['original_language'].toString() ?? null,
+        originalTitle = json['original_title'].toString() ?? null,
+        title = json['title'].toString() ?? null,
         releaseDate = toDateTime(json['release_date']) ?? null,
         voteAverage = double.parse(json['vote_average'].toString()) ?? null,
-        overView = json['over_view'] ?? null,
-        id = json['id'] ?? null;
+        overView = json['overview'].toString() ?? null,
+        id = int.parse(json['id'].toString()) ?? null,
+        genre = genres ?? null;
+
+  Movie copyWith({
+    List<String> backdropPath,
+    String posterPath,
+    String originalLang,
+    String originalTitle,
+    String title,
+    DateTime releaseDate,
+    double voteAverage,
+    String overView,
+    int id,
+    List<String> genre,
+  }) {
+    return Movie(
+      backdropPath: backdropPath ?? this.backdropPath,
+      posterPath: posterPath ?? this.posterPath,
+      originalLang: originalLang ?? this.originalLang,
+      originalTitle: originalTitle ?? this.originalTitle,
+      title: title ?? this.title,
+      releaseDate: releaseDate ?? this.releaseDate,
+      voteAverage: voteAverage ?? this.voteAverage,
+      overView: overView ?? this.overView,
+      id: id ?? this.id,
+      genre: genre ?? this.genre,
+    );
+  }
 
   @override
   String toString() {
     return '''{
-      hasVideo: $hasVideo,
       posterPath: $posterPath,
       backdropPath: $backdropPath,
       originalLang: $originalLang,
@@ -62,16 +92,34 @@ class Movie extends Equatable {
       voteAverage: $voteAverage,
       overView: $overView,
       id: $id,
+      genre: $genre,
     }
     ''';
   }
 }
 
 DateTime toDateTime(String date) {
-  List<String> dateArray = date.split("-");
-  return DateTime(
-    int.parse(dateArray[0]),
-    int.parse(dateArray[1]),
-    int.parse(dateArray[2]),
-  );
+  try {
+    List<String> dateArray = date.split("-");
+    return DateTime(
+      int.parse(dateArray[0]),
+      int.parse(dateArray[1]),
+      int.parse(dateArray[2]),
+    );
+  } catch (e) {
+    print('[toDateTime][error]: $e');
+    return null;
+  }
+}
+
+List<String> generateGenreList({List<int> genIds}) {
+  List<String> _genres = [];
+
+  genIds.forEach((ids) {
+    if (genres.containsKey(ids)) {
+      _genres.add(genres[ids]);
+    }
+  });
+
+  return _genres;
 }

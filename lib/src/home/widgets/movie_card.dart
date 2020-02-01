@@ -1,4 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:tmdb_client_kobe/src/home/widgets/release_date.dart';
 
 class MovieCard extends StatelessWidget {
   final String title;
@@ -23,10 +25,16 @@ class MovieCard extends StatelessWidget {
         Container(
           width: cardWidth,
           height: cardHeight,
-          child: Image.network(
-            posterUrl,
-            fit: BoxFit.cover,
-          ),
+          color: Color(0xFFFFFFFF),
+          child: (posterUrl != null)
+              ? Image.network(
+                  posterUrl,
+                  fit: BoxFit.cover,
+                )
+              : Icon(
+                  Icons.broken_image,
+                  size: cardWidth,
+                ),
         ),
         Container(
           width: cardWidth,
@@ -43,25 +51,30 @@ class MovieCard extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: cardHeight * 0.15,
+          bottom: cardHeight * 0.10,
           child: Column(
             children: <Widget>[
-              Text(
-                title,
-                style: TextStyle(
-                  fontFamily: "OpenSans",
-                  fontSize: 15,
-                  color: Colors.white,
+              Container(
+                alignment: Alignment.center,
+                width: cardWidth,
+                child: AutoSizeText(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: "OpenSans",
+                    fontSize: 15,
+                    color: Colors.white,
+                  ),
+                  maxLines: 2,
                 ),
               ),
-              Text(
-                "Release Date: ${releaseDate.day}/${releaseDate.month}/${releaseDate.year}",
-                style: TextStyle(
-                  fontFamily: "OpenSans",
-                  fontSize: 12,
-                  color: Colors.white,
-                ),
-              )
+              releaseDate != null
+                  ? ReleaseDate(
+                      day: releaseDate.day,
+                      month: releaseDate.month,
+                      year: releaseDate.year,
+                    )
+                  : Text('Unkown'),
             ],
           ),
         ),
