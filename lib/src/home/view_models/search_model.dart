@@ -3,14 +3,15 @@ import 'package:tmdb_client_kobe/src/home/services/search_service.dart';
 import 'package:tmdb_client_kobe/src/locator.dart';
 import 'package:tmdb_client_kobe/src/models/movie_model.dart';
 import 'package:tmdb_client_kobe/src/util/base_view_model.dart';
+import 'package:tmdb_client_kobe/src/util/form_control.dart';
 
 class SearchModel extends BaseViewModel {
   SearchService _searchService;
   DetailsService _detailsService;
+  FormControl<String> searchField;
   List<Movie> searchResult;
   List<Movie> leftList;
   List<Movie> rightList;
-  String searchValue;
   bool error;
   bool initial;
   int page;
@@ -24,16 +25,21 @@ class SearchModel extends BaseViewModel {
     leftList = [];
     rightList = [];
     searchResult = _searchService.searchResult;
-    searchValue = _searchService.isFirst ? null : _searchService?.queried;
+    // searchValue = _searchService.isFirst ? null : _searchService?.queried;
     page = _searchService.page;
     totalPages = _searchService.totalPages;
+    searchField = FormControl<String>(name: 'searchField');
+
+    // searchField.copyWith(
+    //   value: _searchService.isFirst ? null : _searchService?.queried,
+    // );
     sliceList();
   }
 
   void onSearchPressed() async {
     setState(ViewState.Busy);
     initial = false;
-    if (await _searchService.querySearch(query: searchValue)) {
+    if (await _searchService.querySearch(query: searchField.value)) {
       searchResult = _searchService.searchResult;
       totalPages = _searchService.totalPages;
       page = _searchService.page;
@@ -47,8 +53,8 @@ class SearchModel extends BaseViewModel {
   }
 
   void onChangeSearchValue(String val) {
-    searchValue = val;
-    print(searchValue);
+    searchField = searchField.onChanged(val);
+    print(searchField.value);
   }
 
   void sliceList() {
@@ -69,22 +75,25 @@ class SearchModel extends BaseViewModel {
   }
 
   void onPressShowMoreResults() async {
-    setState(ViewState.Busy);
-    page++;
+    if (page < totalPages) {
+      setState(ViewState.Busy);
 
-    if (await _searchService.querySearch(
-      query: searchValue,
-      pag: page,
-    )) {
-      searchResult = _searchService.searchResult;
-      totalPages = _searchService.totalPages;
-      page = _searchService.page;
-      sliceList();
+      page++;
 
-      setState(ViewState.Idle);
-    } else {
-      error = true;
-      setState(ViewState.Idle);
+      if (await _searchService.querySearch(
+        query: searchField.value,
+        pag: page,
+      )) {
+        searchResult = _searchService.searchResult;
+        totalPages = _searchService.totalPages;
+        page = _searchService.page;
+        sliceList();
+
+        setState(ViewState.Idle);
+      } else {
+        error = true;
+        setState(ViewState.Idle);
+      }
     }
   }
 }

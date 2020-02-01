@@ -120,39 +120,66 @@ class DetailsBody extends StatelessWidget {
                   ),
                 ),
               ),
-              BackdropsView(
-                backdropsList: backdropUrls,
-                height: height,
-                width: width,
-              ),
-              // SingleChildScrollView(
-              //   scrollDirection: Axis.horizontal,
-              //   child: Row(
-              //     children: backdropUrls.isNotEmpty
-              //         ? backdropUrls.map((url) {
-              //             return Container(
-              //               height: 0.3 * height,
-              //               width: 0.8 * width,
-              //               child: url != null
-              //                   ? Image.network(
-              //                       url,
-              //                       fit: BoxFit.cover,
-              //                     )
-              //                   : Icon(
-              //                       Icons.broken_image,
-              //                       size: 0.8 * width,
-              //                     ),
-              //             );
-              //           }).toList()
-              //         : [
-              //             Container(
-              //               height: 0.3 * height,
-              //               width: 0.8 * width,
-              //               child: Icon(Icons.broken_image),
-              //             ),
-              //           ],
+              //   BackdropsView(
+              //     backdropsList: backdropUrls,
+              //     height: height,
+              //     width: width,
               //   ),
-              // ),
+              SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Container(
+                    height: 0.3 * height,
+                    width: width,
+                    child: ListView.builder(
+                      itemCount: backdropUrls.length ?? 1,
+                      shrinkWrap: true,
+                      //   itemExtent: 0.3 * height,
+                      scrollDirection: Axis.horizontal,
+                      cacheExtent: 0.8 * width,
+                      itemBuilder: (BuildContext context, index) {
+                        return Container(
+                          height: 0.3 * height,
+                          width: 0.8 * width,
+                          child: backdropUrls[index] != null
+                              ? Image.network(
+                                  backdropUrls[index],
+                                  fit: BoxFit.cover,
+                                )
+                              : Icon(
+                                  Icons.broken_image,
+                                  size: 0.8 * width,
+                                ),
+                        );
+                      },
+                    ),
+                  )
+
+                  // Row(
+                  //   children: backdropUrls.isNotEmpty
+                  //       ? backdropUrls.map((url) {
+                  //           return Container(
+                  //             height: 0.3 * height,
+                  //             width: 0.8 * width,
+                  //             child: url != null
+                  //                 ? Image.network(
+                  //                     url,
+                  //                     fit: BoxFit.cover,
+                  //                   )
+                  //                 : Icon(
+                  //                     Icons.broken_image,
+                  //                     size: 0.8 * width,
+                  //                   ),
+                  //           );
+                  //         }).toList()
+                  //       : [
+                  //           Container(
+                  //             height: 0.3 * height,
+                  //             width: 0.8 * width,
+                  //             child: Icon(Icons.broken_image),
+                  //           ),
+                  //         ],
+                  // ),
+                  ),
             ],
           ),
         ),
@@ -176,8 +203,8 @@ class BackdropsView extends StatelessWidget {
     return backdropsList.isNotEmpty
         ? ListView.builder(
             scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            itemExtent: width * 0.8,
+            // shrinkWrap: true,
+            // itemExtent: width * 0.8,
             itemCount: backdropsList?.length ?? 0,
             itemBuilder: (context, index) {
               String url = backdropsList[index];

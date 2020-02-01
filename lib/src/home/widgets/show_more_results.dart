@@ -15,7 +15,7 @@ class ShowMoreResults extends StatelessWidget {
       child: Container(
         color: Color.fromARGB(100, 0, 0, 0),
         height: 0.1 * height,
-        margin: EdgeInsets.only(bottom: 0.15 * height),
+        margin: EdgeInsets.only(bottom: 10, top: 10),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,

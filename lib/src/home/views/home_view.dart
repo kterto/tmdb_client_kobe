@@ -37,6 +37,7 @@ class HomeView extends StatelessWidget {
                       isHome: true,
                       viewScroller: model.viewScroller,
                       state: model.state,
+                      height: MediaQuery.of(context).size.height,
                     )
               : model.error
                   ? Center(
@@ -49,6 +50,7 @@ class HomeView extends StatelessWidget {
                       isHome: true,
                       viewScroller: model.viewScroller,
                       state: model.state,
+                      height: MediaQuery.of(context).size.height,
                     ),
         );
       },

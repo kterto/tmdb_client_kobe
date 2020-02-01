@@ -31,13 +31,13 @@ class MoviesCardGrid extends StatelessWidget {
   });
 
   Widget build(context) {
-    double height = MediaQuery.of(context).size.height;
+    // double height = MediaQuery.of(context).size.height;
     double cardHeight = height * 0.4;
 
     return ListView.builder(
       shrinkWrap: true,
-      itemExtent: cardHeight,
-      cacheExtent: 10,
+      //   itemExtent: cardHeight,
+      cacheExtent: cardHeight,
       controller: viewScroller,
       itemCount: isHome ? leftList.length + 1 : leftList.length + 1,
       itemBuilder: (context, ind) {
@@ -55,7 +55,7 @@ class MoviesCardGrid extends StatelessWidget {
             index = ind - 1;
           }
         }
-        if (index < leftList.length) {
+        if (ind < leftList.length) {
           Movie movieLeft = leftList[index];
           Movie movieRight;
           bool doNotShow = false;
@@ -102,6 +102,9 @@ class MoviesCardGrid extends StatelessWidget {
             ],
           );
         } else {
+          print('else');
+          print(ind);
+          print(leftList.length);
           return isHome
               ? state == ViewState.Busy
                   ? Container(
