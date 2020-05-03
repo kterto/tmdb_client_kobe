@@ -1,20 +1,16 @@
 import 'dart:convert';
 
 import 'package:tmdb_client_kobe/src/api/api.dart';
+import 'package:tmdb_client_kobe/src/models/app_error.dart';
 import 'package:tmdb_client_kobe/src/models/movie_model.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:tmdb_client_kobe/src/models/result.dart';
 
 const String baseImagesUrl = "https://image.tmdb.org/t/p/original";
 
-class DetailsService {
-  Movie detailedMovie;
-
-  void setDetailedMovie({Movie mov}) {
-    detailedMovie = mov;
-  }
-
-  Future<bool> getBackDrops() async {
+class GetBackDropsService {
+  Future<Result<Movie>> call(Movie detailedMovie) async {
     http.Response resp;
 
     try {
@@ -28,14 +24,14 @@ class DetailsService {
         backdrops.add(baseImagesUrl + backdrop['file_path']);
       });
 
-      detailedMovie = detailedMovie.copyWith(
-        backdropPath: backdrops,
+      return Success(
+        data: detailedMovie.copyWith(
+          backdropPath: backdrops,
+        ),
       );
-
-      return true;
     } catch (err) {
       print('err: $err');
-      return false;
+      return Failure<Movie>(error: UnknownError(message: err.toString()));
     }
   }
 }

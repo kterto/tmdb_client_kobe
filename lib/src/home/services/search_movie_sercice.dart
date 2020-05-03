@@ -1,58 +1,39 @@
 import 'dart:convert';
 
-import 'package:rxdart/rxdart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:tmdb_client_kobe/src/api/api.dart';
+import 'package:tmdb_client_kobe/src/models/app_error.dart';
 import 'package:tmdb_client_kobe/src/models/movie_model.dart';
-import 'package:http/http.dart' as http;
+import 'package:tmdb_client_kobe/src/models/result.dart';
 
+import 'package:http/http.dart' as http;
 import 'genres.dart';
 
-class SearchService {
-  List<Movie> searchResult;
-  String queried;
-  int page;
-  int totalPages;
-  bool isFirst;
-  BehaviorSubject<bool> increasedPage$;
-
-  SearchService() {
-    increasedPage$ = BehaviorSubject<bool>();
-    searchResult = [];
-    page = 1;
-    totalPages = 1;
-    queried = '';
-    isFirst = true;
-  }
-
-  Future<bool> querySearch({String query, int pag}) async {
+class SearchMovieService {
+  Future<Result<Map<String, dynamic>>> call({
+    @required int page,
+    @required String query,
+  }) async {
     http.Response resp;
-    isFirst = false;
-
-    if (query != queried) {
-      queried = query;
-      searchResult = [];
-      page = 1;
-    } else {
-      page = pag;
-    }
+    Map<String, dynamic> response = {
+      'movies': <Movie>[],
+      'totalPages': null,
+    };
 
     try {
       resp = await API.search(query: query, pag: page);
-      print(resp.statusCode);
-      print(resp.body);
+
       var jsonResp = json.decode(resp.body);
 
       List list = jsonResp['results'];
-      print(jsonResp['total_pages']);
-      totalPages = int.parse(jsonResp['total_pages'].toString());
+
+      response['totalPages'] = int.parse(jsonResp['total_pages'].toString());
 
       list.forEach((movieJson) {
         List<String> gens = [];
         List ids = [];
 
         ids = movieJson['genre_ids'].toList();
-
-        // print(ids);
 
         ids.forEach((e) {
           if (GENRES.containsKey(e)) {
@@ -61,7 +42,7 @@ class SearchService {
         });
 
         try {
-          searchResult.add(
+          response['movies'].add(
             Movie.fromJson(
               movieJson,
               genres: gens,
@@ -73,18 +54,14 @@ class SearchService {
       });
 
       try {
-        searchResult.sort((a, b) {
+        (response['movies'] as List<Movie>).sort((a, b) {
           if (a.releaseDate == null && b.releaseDate != null) {
-            print('a null');
             return -1 * DateTime.now().compareTo(b.releaseDate);
           } else if (b.releaseDate == null && a != null) {
-            print('b null');
             return -1 * a.releaseDate.compareTo(DateTime.now());
           } else if (a.releaseDate == null && b.releaseDate == null) {
-            print('a n b null');
-            return -1 * a.releaseDate.compareTo(b.releaseDate);
+            return -1;
           } else {
-            print('neither');
             return -1 * a.releaseDate.compareTo(b.releaseDate);
           }
         });
@@ -92,14 +69,14 @@ class SearchService {
         print('[sorting][error]: $e');
       }
 
-      print(searchResult.length);
-      return true;
+      return Success(data: response);
     } catch (e) {
-      if (page > 1) {
-        page--;
-      }
       print('[querySearch][error]: $e');
-      return false;
+      return Failure<Map<String, dynamic>>(
+        error: UnknownError(
+          message: e.toString(),
+        ),
+      );
     }
   }
 }

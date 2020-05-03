@@ -1,13 +1,16 @@
+import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 import 'package:tmdb_client_kobe/src/home/services/details_service.dart';
 import 'package:tmdb_client_kobe/src/home/services/search_service.dart';
+import 'package:tmdb_client_kobe/src/home/views/details_view.dart';
 import 'package:tmdb_client_kobe/src/locator.dart';
 import 'package:tmdb_client_kobe/src/models/movie_model.dart';
 import 'package:tmdb_client_kobe/src/util/base_view_model.dart';
 import 'package:tmdb_client_kobe/src/util/form_control.dart';
 
 class SearchModel extends BaseViewModel {
-  SearchService _searchService;
-  DetailsService _detailsService;
+  final SearchService _searchService;
+  final GetBackDropsService _getBackDrops;
   FormControl<String> searchField;
   List<Movie> searchResult;
   List<Movie> leftList;
@@ -17,22 +20,23 @@ class SearchModel extends BaseViewModel {
   int page;
   int totalPages;
 
+  SearchModel({
+    @required SearchService searchService,
+    @required GetBackDropsService getBackDrops,
+  })  : _searchService = searchService,
+        _getBackDrops = getBackDrops;
+
   void initModel() {
-    _searchService = locator<SearchService>();
-    _detailsService = locator<DetailsService>();
     error = false;
     initial = true;
     leftList = [];
     rightList = [];
     searchResult = _searchService.searchResult;
-    // searchValue = _searchService.isFirst ? null : _searchService?.queried;
+
     page = _searchService.page;
     totalPages = _searchService.totalPages;
     searchField = FormControl<String>(name: 'searchField');
 
-    // searchField.copyWith(
-    //   value: _searchService.isFirst ? null : _searchService?.queried,
-    // );
     sliceList();
   }
 
@@ -71,7 +75,7 @@ class SearchModel extends BaseViewModel {
   }
 
   void setDetails({Movie moviee}) {
-    _detailsService.setDetailedMovie(mov: moviee);
+    Get.to(DetailsView(moviee));
   }
 
   void onPressShowMoreResults() async {

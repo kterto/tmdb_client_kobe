@@ -28,7 +28,7 @@ class HomeNavigatorState extends State<HomeNavigator> {
           ),
       '/details': () => MaterialPageRoute(
             settings: RouteSettings(name: '/details'),
-            builder: (context) => DetailsView(),
+            builder: (context) => DetailsView(null),
           ),
       '/search': () => MaterialPageRoute(
             settings: RouteSettings(name: '/search'),

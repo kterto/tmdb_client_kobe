@@ -23,11 +23,9 @@ class FetchUpcomingService {
 
     try {
       resp = await API.getUpcoming(page: page);
-      // print(resp.body);
-      // print(resp.statusCode);
 
       var respJson = json.decode(resp.body);
-      // print(respJson['genre_ids']);
+
       List list = respJson['results'].toList();
 
       list.forEach((movieJson) {
@@ -36,15 +34,12 @@ class FetchUpcomingService {
 
         ids = movieJson['genre_ids'].toList();
 
-        // print(ids);
-
         ids.forEach((e) {
-          if (genres.containsKey(e)) {
-            gens.add(genres[e]);
+          if (GENRES.containsKey(e)) {
+            gens.add(GENRES[e]);
           }
         });
 
-        // print('gens: $gens');
         try {
           upcomingList.add(
             Movie.fromJson(
@@ -64,7 +59,7 @@ class FetchUpcomingService {
       } catch (e) {
         print('[sorting][error]: $e');
       }
-      // print(upcomingList);
+
       if (upcomingList.length > 20) {
         increasedPage$.add(true);
       }

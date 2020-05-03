@@ -1,30 +1,21 @@
+import 'package:flutter/foundation.dart';
 import 'package:tmdb_client_kobe/src/home/services/details_service.dart';
-import 'package:tmdb_client_kobe/src/locator.dart';
 import 'package:tmdb_client_kobe/src/models/movie_model.dart';
+import 'package:tmdb_client_kobe/src/models/result.dart';
 import 'package:tmdb_client_kobe/src/util/base_view_model.dart';
 
 class DetailsModel extends BaseViewModel {
-  DetailsService _detailsService;
+  final GetBackDropsService _getBackDrops;
+  Result<Movie> detailedMovieRes;
 
-  Movie movie;
-  bool error;
+  DetailsModel({@required GetBackDropsService getBackDrops})
+      : _getBackDrops = getBackDrops;
 
-  void initModel() async {
-    _detailsService = locator<DetailsService>();
-    movie = _detailsService.detailedMovie;
-
-    error = false;
+  void initModel({@required Movie detailedMovie}) async {
     setState(ViewState.Busy);
 
-    if (await _detailsService.getBackDrops()) {
-      movie = _detailsService.detailedMovie;
-      // print(movie.overView);
-      // print(movie.backdropPath);
+    detailedMovieRes = await _getBackDrops(detailedMovie);
 
-      setState(ViewState.Idle);
-    } else {
-      error = true;
-      setState(ViewState.Idle);
-    }
+    setState(ViewState.Idle);
   }
 }

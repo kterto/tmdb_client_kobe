@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:tmdb_client_kobe/src/home/view_models/home_model.dart';
+import 'package:tmdb_client_kobe/src/home/views/search_view.dart';
 import 'package:tmdb_client_kobe/src/home/widgets/movies_card_grid.dart';
 import 'package:tmdb_client_kobe/src/util/base_view.dart';
 import 'package:tmdb_client_kobe/src/util/base_view_model.dart';
@@ -22,36 +24,44 @@ class HomeView extends StatelessWidget {
             ),
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () => Navigator.of(context).pushNamed('/search'),
+            onPressed: () => Get.to(SearchView()),
             child: Icon(Icons.search),
           ),
-          body: model.state == ViewState.Busy
-              ? model.upcomingList.isEmpty
-                  ? Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : MoviesCardGrid(
-                      leftList: model.leftList,
-                      rightList: model.rightList,
-                      setDetails: model.setDetails,
-                      isHome: true,
-                      viewScroller: model.viewScroller,
-                      state: model.state,
-                      height: MediaQuery.of(context).size.height,
-                    )
-              : model.error
-                  ? Center(
-                      child: Text('error'),
-                    )
-                  : MoviesCardGrid(
-                      leftList: model.leftList,
-                      rightList: model.rightList,
-                      setDetails: model.setDetails,
-                      isHome: true,
-                      viewScroller: model.viewScroller,
-                      state: model.state,
-                      height: MediaQuery.of(context).size.height,
-                    ),
+          body: Builder(
+            builder: (context) {
+              if (model.state == ViewState.Busy) {
+                if (model.upcomingList.isEmpty) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  return MoviesCardGrid(
+                    moviesList: model.upcomingList,
+                    setDetails: model.setDetails,
+                    isHome: true,
+                    viewScroller: model.viewScroller,
+                    state: model.state,
+                    height: MediaQuery.of(context).size.height,
+                  );
+                }
+              } else {
+                if (model.upcomingList.isEmpty) {
+                  return Center(
+                    child: Text('error'),
+                  );
+                } else {
+                  return MoviesCardGrid(
+                    moviesList: model.upcomingList,
+                    setDetails: model.setDetails,
+                    isHome: true,
+                    viewScroller: model.viewScroller,
+                    state: model.state,
+                    height: MediaQuery.of(context).size.height,
+                  );
+                }
+              }
+            },
+          ),
         );
       },
     );

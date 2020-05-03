@@ -101,11 +101,7 @@ class Movie extends Equatable {
 DateTime toDateTime(String date) {
   try {
     List<String> dateArray = date.split("-");
-    return DateTime(
-      int.parse(dateArray[0]),
-      int.parse(dateArray[1]),
-      int.parse(dateArray[2]),
-    );
+    return DateTime.tryParse(date);
   } catch (e) {
     print('[toDateTime][error]: $e');
     return null;
@@ -116,8 +112,8 @@ List<String> generateGenreList({List<int> genIds}) {
   List<String> _genres = [];
 
   genIds.forEach((ids) {
-    if (genres.containsKey(ids)) {
-      _genres.add(genres[ids]);
+    if (GENRES.containsKey(ids)) {
+      _genres.add(GENRES[ids]);
     }
   });
 

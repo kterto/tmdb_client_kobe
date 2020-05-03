@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tmdb_client_kobe/src/home/home_navigator.dart';
+import 'package:get/get.dart';
+import 'package:tmdb_client_kobe/src/home/screens/home_screen.dart';
+import 'package:tmdb_client_kobe/src/home/views/home_view.dart';
 import 'package:tmdb_client_kobe/src/util/custom_navigation_observer.dart';
 import 'package:tmdb_client_kobe/src/util/splash_screen.dart';
 
@@ -26,7 +28,7 @@ class _AppState extends State<App> {
     _routes = {
       '/home': () => MaterialPageRoute(
             settings: RouteSettings(name: '/home'),
-            builder: (context) => HomeNavigator(navigatorKey: homeNavigatorKey),
+            builder: (context) => HomeScreen(),
           ),
     };
   }
@@ -34,6 +36,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: Get.key,
       navigatorObservers: [_navigatorObserver],
       onGenerateRoute: _appRoutes,
       theme: ThemeData(

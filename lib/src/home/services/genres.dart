@@ -1,4 +1,4 @@
-const genres = {
+const GENRES = {
   28: "Action",
   12: "Adventure",
   16: "Animation",
