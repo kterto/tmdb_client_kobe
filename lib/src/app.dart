@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tmdb_client_kobe/src/home/pages/home_page.dart';
 import 'package:tmdb_client_kobe/src/home/screens/home_screen.dart';
 import 'package:tmdb_client_kobe/src/home/views/home_view.dart';
 import 'package:tmdb_client_kobe/src/util/custom_navigation_observer.dart';
@@ -28,7 +29,7 @@ class _AppState extends State<App> {
     _routes = {
       '/home': () => MaterialPageRoute(
             settings: RouteSettings(name: '/home'),
-            builder: (context) => HomeScreen(),
+            builder: (context) => HomePage(),
           ),
     };
   }

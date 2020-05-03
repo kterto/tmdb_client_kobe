@@ -11,12 +11,14 @@ class CorrectSearchField extends StatefulWidget {
   final Widget prefixAsset;
   final TextInputType keyboradType;
   final String label;
+  final Function onSearchCallback;
 
   CorrectSearchField({
     @required this.borderRadius,
     @required this.fontSize,
     @required this.hint,
     @required this.keyboradType,
+    this.onSearchCallback,
     this.inputWidth,
     this.prefixAsset,
     this.label,
@@ -75,7 +77,11 @@ class _CorrectSearchFieldState extends State<CorrectSearchField> {
             icon: Icon(Icons.search),
             onPressed: () {
               FocusScope.of(context).requestFocus(FocusNode());
-              onSearchPressed();
+              if (widget.onSearchCallback == null) {
+                onSearchPressed();
+              } else {
+                widget.onSearchCallback(controller.text);
+              }
             },
           ),
         ),

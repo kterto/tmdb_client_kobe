@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tmdb_client_kobe/src/home/pages/details_page.dart';
 import 'package:tmdb_client_kobe/src/home/screens/details_screen.dart';
 import 'package:tmdb_client_kobe/src/models/movie_model.dart';
 import 'package:tmdb_client_kobe/src/util/base_view_model.dart';
@@ -19,6 +20,7 @@ class MoviesCardGrid extends StatelessWidget {
   final int page;
   final int totalPages;
   final bool isBloc;
+  final bool isMobX;
   final bool neverScroll;
 
   MoviesCardGrid({
@@ -34,6 +36,7 @@ class MoviesCardGrid extends StatelessWidget {
     this.totalPages,
     this.moviesList,
     this.isBloc = false,
+    this.isMobX = false,
     this.neverScroll = false,
   });
 
@@ -55,13 +58,15 @@ class MoviesCardGrid extends StatelessWidget {
             : AlwaysScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           return InkWell(
-            onTap: isBloc
-                ? () {
-                    Get.to(DetailsScreen(moviesList[index]));
-                  }
-                : () {
-                    setDetails(moviee: moviesList[index]);
-                  },
+            onTap: () {
+              if (isBloc) {
+                Get.to(DetailsScreen(moviesList[index]));
+              } else if (isMobX) {
+                Get.to(DetailsPage(detailedMovie: moviesList[index]));
+              } else {
+                setDetails(moviee: moviesList[index]);
+              }
+            },
             child: MovieCard(
               title: moviesList[index].title,
               releaseDate: moviesList[index].releaseDate,

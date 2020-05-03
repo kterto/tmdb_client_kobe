@@ -9,6 +9,9 @@ import 'package:tmdb_client_kobe/src/home/services/fetch_upcoming_service.dart';
 import 'package:tmdb_client_kobe/src/home/services/get_upcoming_list_service.dart';
 import 'package:tmdb_client_kobe/src/home/services/search_movie_sercice.dart';
 import 'package:tmdb_client_kobe/src/home/services/search_service.dart';
+import 'package:tmdb_client_kobe/src/home/stores/details_store.dart';
+import 'package:tmdb_client_kobe/src/home/stores/home_store.dart';
+import 'package:tmdb_client_kobe/src/home/stores/seach_store.dart';
 import 'package:tmdb_client_kobe/src/home/view_models/details_model.dart';
 import 'package:tmdb_client_kobe/src/home/view_models/home_model.dart';
 import 'package:tmdb_client_kobe/src/home/view_models/search_model.dart';
@@ -36,6 +39,22 @@ void setUpLocator() {
   );
   locator.registerFactory(
     () => SearchBloc(
+      searchMovie: locator(),
+    ),
+  );
+
+  locator.registerFactory(
+    () => HomeStore(
+      getUpcompingList: locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => DetailsStore(
+      getBackDrops: locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => SearchStore(
       searchMovie: locator(),
     ),
   );
